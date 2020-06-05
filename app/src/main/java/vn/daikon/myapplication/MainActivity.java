@@ -3,19 +3,14 @@ package vn.daikon.myapplication;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-
-import java.io.IOException;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import vn.daikon.myapplication.model.textrequest.TextRequest;
 import vn.daikon.myapplication.model.textresponse.TextResponse;
-import vn.daikon.myapplication.source.TextApi;
+import vn.daikon.myapplication.repository.TextApi;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     public static final String TAG = MainActivity.class.getSimpleName();
