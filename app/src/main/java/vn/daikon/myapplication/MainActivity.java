@@ -2,65 +2,75 @@ package vn.daikon.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.SharedPreferences;
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Pair;
+import android.view.KeyEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import vn.daikon.myapplication.adapter.TranslateAdapter;
+import vn.daikon.myapplication.model.Translation;
 import vn.daikon.myapplication.model.textrequest.TextRequest;
 import vn.daikon.myapplication.model.textresponse.TextResponse;
+import vn.daikon.myapplication.presenter.MyInterface;
+import vn.daikon.myapplication.presenter.Presenter;
 import vn.daikon.myapplication.repository.LocalRepo;
 import vn.daikon.myapplication.repository.TextApi;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    public static final String TAG = MainActivity.class.getSimpleName();
-    EditText et_from;
-    TextView tv_to;
-    TextView tv_list;
-    SharedPreferences sharedPreferences;
+public class MainActivity extends AppCompatActivity implements MyInterface.View {
+
+    Spinner sp_from,sp_to;
+    ImageView im_sw,im_clear;
+    TextView tv_out;
+    EditText et_inp;
+    ListView lv;
+    List<Translation> list ;
+    String from, to ;
     LocalRepo localRepo;
+    MyInterface.IPresenter presenter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        et_from = (EditText) findViewById(R.id.from);
-        tv_to = (TextView) findViewById(R.id.to);
-        tv_list = (TextView) findViewById(R.id.list);
-        sharedPreferences = getSharedPreferences("Tuan",MODE_PRIVATE);
-        sharedPreferences.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
-            @Override
-            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-                Log.d(TAG,"tuan");
-                localRepo = new LocalRepo(sharedPreferences);
-                String x = localRepo.getTop(1)[0];
-                tv_list.setText(x);
-            }
-        });
+        sp_from = (Spinner) findViewById(R.id.spinner_language_from);
+        sp_to = (Spinner) findViewById(R.id.spinner_language_to);
+        et_inp = (EditText) findViewById(R.id.text_input);
+        tv_out = (TextView) findViewById(R.id.text_ouput);
+        im_sw = (ImageView) findViewById(R.id.image_swap);
+        im_clear = (ImageView) findViewById(R.id.clear_text);
+        lv = (ListView) findViewById(R.id.list_item);
+        localRepo = new LocalRepo(this);
+        setAdapter();
+        presenter = new Presenter(this,localRepo);
+
+
     }
+    void setAdapter(){
+        list = localRepo.getAllTranslation();
+        TranslateAdapter translateAdapter = new TranslateAdapter(list);
+        lv.setAdapter(translateAdapter);
+    }
+
 
     @Override
-    public void onClick(View v) {
-        TextApi textApi = new TextApi();
-        String from = et_from.getText().toString();
-        if (from != null && from !="") {
-            try {
-                TextResponse[] textResponses = textApi.execute(new TextRequest(from)).get();
-                if (textResponses != null) {
-                    tv_to.setText(textResponses[0].translation[0].text);
-                    localRepo = new LocalRepo(sharedPreferences);
-                    localRepo.update(from,textResponses[0].translation[0].text);
-                }
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+    public void updateView(String to, Translation translation) {
+        tv_out.setText(to);
+        list.add(translation);
     }
+    public void onClickTransImage(View view){
+        String inp = et_inp.getText().toString();
 
-
+        presenter.translate(inp,"en","vi");
+    }
 }
