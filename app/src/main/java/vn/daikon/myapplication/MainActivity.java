@@ -85,7 +85,6 @@ public class MainActivity extends AppCompatActivity implements MyInterface.View 
     }
     public void onClickTransButton(View view){
         String inp = et_inp.getText().toString();
-
         presenter.translate(inp,from,to);
     }
 
@@ -94,9 +93,12 @@ public class MainActivity extends AppCompatActivity implements MyInterface.View 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String x = "vi";
-        if (position == 0) x = "vi";else x = "en";
-        if (view.getId() == R.id.spinner_language_from) from = x; else to = x;
+        if (position == 0) x = "vi";
+        else x = "en";
 
+        if (parent.getId() == R.id.spinner_language_from) from = x; else to = x;
+        Log.d("ss", position + " " +from +" "+to);
+        Log.d("ss", parent.getId() + " " +R.id.spinner_language_from +" "+R.id.spinner_language_to);
     }
 
     @Override
