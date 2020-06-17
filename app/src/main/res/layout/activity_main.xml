@@ -53,22 +53,35 @@
         android:gravity="right"
         android:layout_marginBottom="1dp"
         android:background="@android:color/white">
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_margin="8dp"
+            android:id="@+id/sw"/>
+        <Button
+            android:id="@+id/speech_bt"
+            android:layout_width="wrap_content"
+            android:text="Speech"
 
+            android:layout_height="40dp"
+            android:onClick="onClickSpeechButton"
+            android:tint="@android:color/darker_gray"
+            android:layout_margin="8dp"/>
         <Button
             android:id="@+id/clear_text"
-            android:layout_width="40dp"
+            android:layout_width="wrap_content"
+            android:text="Clear"
             android:layout_height="40dp"
             android:onClick="onClickClearButton"
-            android:background="@drawable/ic_clear_black_24dp"
             android:tint="@android:color/darker_gray"
             android:layout_margin="8dp"/>
         <Button
             android:id="@+id/enter_text"
-            android:layout_width="40dp"
+            android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_margin="8dp"
             android:onClick="onClickTransButton"
-            android:background="@drawable/ic_enter"
+            android:text="Trans"
             android:tint="@android:color/darker_gray" />
     </LinearLayout>
     <TextView
@@ -88,6 +101,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/list_item"
+
         android:background="@android:color/white"
         android:layout_weight="20" />
 </LinearLayout>
