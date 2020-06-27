@@ -26,12 +26,10 @@ public class Presenter implements MyInterface.IPresenter {
     public void translate(String text, String from, String to ) {
         TextApi textApi = new TextApi();
         try {
-
             TextResponse[] textResponses = textApi.execute(new TextRequest(text,from,to)).get();
-
             int max = localRepo.getID() +1;
-            Translation translation = new Translation(max,text,textResponses[0].translation[0].text,from,to);
 
+            Translation translation = new Translation(max,text,textResponses[0].translation[0].text,from,to);
             localRepo.addTranslation(translation);
             view.updateView(textResponses[0].translation[0].text, translation);
 

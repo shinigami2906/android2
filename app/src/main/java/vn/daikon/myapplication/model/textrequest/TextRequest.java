@@ -12,4 +12,7 @@ public class TextRequest {
     }
     public String from;
     public String to;
+    public String toString(){
+        return "[ { 'text': " + text +"}]";
+    }
 }

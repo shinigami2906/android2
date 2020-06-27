@@ -55,8 +55,6 @@ public class MainActivity extends AppCompatActivity implements MyInterface.View 
     Switch aSwitch;
 
     private final int REQ_CODE = 100;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

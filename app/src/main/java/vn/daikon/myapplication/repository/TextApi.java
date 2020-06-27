@@ -33,20 +33,27 @@ public class TextApi extends AsyncTask<TextRequest,Void, TextResponse[]> {
         String from = textRequests[0].from;
         String to = textRequests[0].to;
         String url2 = url+"&from="+from+"&to="+to;
-        Log.d("tuan", url2);
         Request request = new Request.Builder()
                 .url(url2).addHeader("Ocp-Apim-Subscription-Key","d233c4cd0ae940858a9bfe1c676f160a")
                 .post(body)
                 .build();
 
-        try (Response response = client.newCall(request).execute()) {
-
-            String x = response.body().string();
-            Log.d("sssss",x);
-            return   gson.fromJson(x, TextResponse[].class);
+        Response response = null;
+        try {
+            response = client.newCall(request).execute();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
+
+        String x = null;
+        try {
+            x = response.body().string();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return   gson.fromJson(x, TextResponse[].class);
+
+
     }
 }

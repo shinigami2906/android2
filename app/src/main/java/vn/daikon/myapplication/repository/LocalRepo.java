@@ -28,9 +28,13 @@ public class LocalRepo extends SQLiteOpenHelper {
     private static final String KEY_TO = "'to'";
     private static final String KEY_FROM2 = "from2";
     private static final String KEY_TO2 = "to2";
-
+    private static LocalRepo localRepo;
+    public static LocalRepo getInstance(){
+        return localRepo;
+    }
     public LocalRepo(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        localRepo = this;
     }
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -39,11 +43,6 @@ public class LocalRepo extends SQLiteOpenHelper {
                 "( %s INTEGER IDENTITY(1,1) " +
                 "PRIMARY KEY, %s TEXT, %s TEXT, %s TEXT,  %s TEXT);", TABLE_NAME, KEY_ID, KEY_FROM, KEY_TO, KEY_FROM2, KEY_TO2);
         db.execSQL(create_translation_table);
-
-
-
-
-
     }
 
     @Override
